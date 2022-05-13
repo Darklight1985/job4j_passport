@@ -15,8 +15,6 @@ import java.util.Objects;
 public class Passport {
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
-@NotNull(message = "Id must be non null",
-        groups = {Operation.OnUpdate.class, Operation.OnDelete.class})
    private int id;
 
     @Min(value = 1000,
@@ -24,8 +22,10 @@ public class Passport {
     @Max(value = 9999,
             message = "The series must consist of 4 digits")
     private int series;
-    @Min(value = 10000000,
-            message = "The number must consist of 8 digits")
+    @Min(value = 100000,
+            message = "The number must consist of 6 digits")
+    @Max(value = 999999,
+            message = "The number must consist of 6 digits")
     private int number;
 
     @NotNull
