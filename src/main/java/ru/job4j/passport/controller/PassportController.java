@@ -22,11 +22,14 @@ public class PassportController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Passport> create(@Valid @RequestBody Passport passport) {
-        return new ResponseEntity<>(
-                this.passportService.create(passport),
-                HttpStatus.CREATED
-        );
+    public ResponseEntity<Void> create(@Valid @RequestBody Passport passport) {
+        ResponseEntity<Void> rsl;
+        if (passportService.create(passport)) {
+            rsl = ResponseEntity.ok().build();
+        } else {
+            rsl =  ResponseEntity.badRequest().build();
+        }
+        return rsl;
     }
 
     @DeleteMapping("/delete/{id}")

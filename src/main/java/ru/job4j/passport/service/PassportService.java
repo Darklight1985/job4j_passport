@@ -18,15 +18,22 @@ public class PassportService {
         this.passportRepository = passportRepository;
     }
 
-    public Passport create(Passport passport) {
-        return this.passportRepository.save(passport);
+    public boolean create(Passport passport) {
+        boolean rsl = false;
+     if (this.passportRepository.findBySeriesAndNumber(passport.getSeries(),
+             passport.getNumber()).isEmpty()) {
+         this.passportRepository.save(passport);
+         rsl = true;
+     }
+     return rsl;
     }
 
     public boolean delete(int id) {
-        Passport passport = new Passport();
-        passport.setId(id);
-        this.passportRepository.delete(passport);
-        return true;
+        boolean rsl = false;
+        if (this.passportRepository.deletePassport(id) > 0) {
+            rsl = true;
+        }
+        return rsl;
     }
 
     public List<Passport> findAll() {
